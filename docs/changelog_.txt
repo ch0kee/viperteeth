@@ -1,0 +1,10 @@
+változtatások :
+---------------
+- a Canvas objektumra hívjuk a begin_redraw()\end_redraw() párost az optimális rajzolás érdekében
+- a Canvas, és minden belõle számítható paraméter bekerült a SnakeGame osztályba, nem paraméterek
+- onKeyDown része a SnakeGame osztálynak, így a player.direction-t változtatja
+- SnakeGame.direction eltávolítva, nincs rá szükség
+- Fõmenü, ezt indítjuk induláskor
+- mindenhol tuple adatszerkezet, ahol csak gyorsíthatjuk a játékot
+- minden konstanst betettem a vt_constants.py-be
+- game.distance ==> viewport.distance, illetve a scroll fv. a játékos fejének koordinátáját kapja
