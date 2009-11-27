@@ -1,0 +1,133 @@
+I) Mobilra pythont installalni:
+
+
+   1) Nokia PC suit hasznos a sis/sisx fileok telepítéséhez. (amilyenben a python is jon)
+     -) http://www.nokia.hu/tamogatas-es-szoftver/szoftver/nokia-pc-suite
+     -) keszulekfuggo szoftver letoltese.
+     -) valamilyen kapcsolat a telefonnal (esetemben bluetooth), de lehet kabel stb.
+      majd nehany egyszeru lepes hogy a telefonra is telepitsuk.
+
+   2) Pyhton for S60, E71-es keszulekre:
+     !) ha mas keszuleked van, itt es itt nezelodj:
+      http://wiki.opensource.nokia.com/projects/Installing_PyS60
+   
+     -) https://garage.maemo.org/projects/pys60/ (1.9.7 verzio)
+   
+     -) a (windows installeres) .exet toltottem le. installaltam a PCre.
+      (ha a feature pack is szamit akkor lehet h erdemes mast letolteni)
+   
+     -) a fileokat dependencies konyvtarbol installaltam
+      nokia pc suittal. (ha nincs atmasol majd install a telefonon
+      installations/app manager) vigyazni: a telefon ido/datumot kelett
+      allitani helyesre a certificatek miatt
+   
+     -) Python 1.9.7.sis
+  
+     -) PythonScriptShell.1.9.7_3_0.sis
+      (ezutan megjelent a python icon az installations alatt a telefonon)
+
+     -) ikonra katt. szoveges kepernyo megjelenik, ott options -> run script.
+
+     +) azt irjak h e:Pythonba kell tenni a file-okat amiket aztan OPTIONS
+      gomb run scriptre egybol megtalal a PythonScriptShell. de e:\data\pythonban van
+      es ott is jo.
+
+II) emulatort installalni:
+  
+   -) Letoltottem a nokia s60 SDK-t (S60_3rd_Edition_SDK_Feature_Pack_2_v1_1_en.zip) innen:
+      http://forum.nokia.com/info/sw.nokia.com/id/4a7149a5-95a5-4726-913a-3c6f21eb65a5/
+      S60-SDK-0616-3.0-mr.html
+
+   -) Majd a pys60as sitetrol( https://garage.maemo.org/frs/?group_id=854)
+      py60 SDK-t: Python_1.9.7_3rdFP2_SDK_with_OpenC.zip
+      A feature packnak egyeznie kell a 2nek, mind2 FP1 vagy mind2 FP2
+
+   -) nokia s60 sdk-t felinstallal (fontos: hogy a a DEFAULT install patht 
+      kell haznalni, kulonben az emu mar inditaskor elcrashel)
+
+   -) Ezutan a C:\S60\devices\S60_3rd_FP2_SDK_v1.1\epoc32 -be bemasol a pys60
+      sdk epoc32 tartalmat.
+
+   -) Emu elindit. Majd a emus telon belul a menu telogombra katt, ott 
+      installation kivalaszt, es azon belul python.
+      Ha elindult akkor Options/Run Script/Snake.py
+
+   +) Sajat filet meg nem probaltam felmasolni de szerintem csak be kell masolni
+      oda ahol a snake.py is van.
+
+
+(mar tudunk egyszeru python scriptet futtatni emulatoron illetve telon)
+
+III) lightblue letoltese (bluetooth modul, s60-al is mukodik)
+   
+   -) http://lightblue.sourceforge.net/
+   -) ebbol is van FP1 es FP2 verzio
+
+IV) teszt: lightblue-t hasznalo python program futtatasa TELEFONON / EMULATORON
+
+   0) testlightblue.py ket sor:
+      import lightblue
+      lightblue.selectdevice()
+
+   ?) hogyan erem el hogy az import lightblue mukodjon
+
+   1) futtatas scriptkent
+      -) bele kell tenni a ptython path-jaba valahogy
+      -) EMULATOR: Ha a scripted melle csinalunk egy lib konyvtarat es abba masoljuk a  
+	 lightbluet akkor a lightblue.py-t be fogja tudni importalni
+	 de a nativ .pyd modult nem
+      !) nem mukodik a native lybrarik pl: kf__lightblueutil.pyd importja!
+
+  
+   2) .sis fajlt "csomagolni" a python programbol, majd install to phone
+      -) az PythonFors60-nak, amit a PCre telepitettunk (lasd 2es pont)
+         startmenubol el kell lehet erni es futtatni az appplication packager-jet.
+
+      -) futtatasahoz lennie kell a PCn pyhton 2.5 -nek (kesobbi verzio nem jo!)
+
+      +) WINDOWS7 problemak: az application package-ert admin joggal kell futtatni.
+         mert egyebkent nem tud irni egy log filet.
+         (ensymble_gui.pyd a PyS60 installkonyvtaraban)
+         -) jobbgomb application manageren => Társítás.. pyhtonw
+            a pythonw-n is jobbgomb, ott  tulajdonságok => aztán kompatibilitás
+            és <X> Rendszergazda mód. bár így mindegyik így fog  futni, de ez a
+            leggyorsabb megoldás.
+         -) az elozo modszerrel nem kapunk hibauzenetet. ahhoz konzolt kell futtatni
+            admin joggal, majd, pythonw parancssal inditani a .pyd filet.
+
+      +) a packager-nek van jo helpje.
+
+      -) a beolvasando .py filenak olyan uton kell lennie ami nem tartalmaz space-t
+
+      (elkeszult a lightbluetry.sis file)
+
+      -) Telepites telefonra nokia PC suittal mint (I/2)nel
+      !) "Certificate error, contact the application supplier"
+
+      -) TELEFON: ki kell kapcsolni a telefonban 1 megszoritast (csak signed cert-ekkel
+         rendelkezo .sis-eket volt hajlando installalni)
+         -> Go to Application Manager (usually it is located under Tools folder).
+         -> Select Options | Settings menu. When you select Software installation
+         -> you can see two options, i.e. Signed only and Al
+
+      (installalas utan fut a lightbluetry.sis file TELEFONON)
+
+      -) EMULATOR NEM MEGY
+	 3as verzios emuban self-signed certtel nem megy (amilyen a packager-el csinalt sys file is)
+         nem lehet installalni.
+
+	 a 2es verzio nem ellenoriz certificatot, ott module import problem a van (by Magyar Attila):
+
+         Az emus problema egyreszt abbol adodik hogy a lightblueban levo nativ
+	 kf__lightblueutil.pyd nem WINSCW platformra van forgatva hanem armv5-re
+	 vagy mire.
+	 A binaryba ha beleneztek akkor latszik is hogy egy y-nal kezdodik MZ
+	 helyett. Az emulator meg WINS/WINSCW -re forgatott programokat tud
+	 futtatni (nem tudom miert hivjak akkor emulatornak). A pys60as sdk eleve
+	 erre volt forgatva ezert futott, viszont igy nem tudja a nem winscv-s
+	 lightblues pyd-et beimportalni. Nagy nehezen, de vegul sikerult leforgatni
+	 a _lightblueutil-t WINSCW-re, Carbide C++al. Igy mar nem kapok import
+	 errort, latszolag jo is minden, kiveve az hogy nem mukodik. A finddevice
+	 hivaskor a resolver.open-ben
+	 egy KErrNotSupportedes SymbianErrort dob. Szerintem nincs implementalva
+	 vmi ami telefonon igen.
